@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Putting User Input into JS</title>
+    <style>
+        .formBox{
+            padding: 0.5rem 2rem;
+        }
+    </style>
+</head>
+<body>
+    <form>
+        <div class="formBox">
+            <label for="name">Name</label>
+            <input type="text" id="name" placeholder="Enter name"/>
+        </div>
+        <div class="formBox">
+            <label for="class">Class</label>
+            <input type="text" id="class" placeholder="Class"/>
+        </div>
+        <div class="formBox">
+            <button id="btn">Submit</button>
+        </div>
+        <div id="msg">
+            <pre></pre>
+        </div>
+    </form>
+    <script>
+        let names = [];
+        const addNames = (ev)=>{
+            ev.preventDefault();  //to stop the form submitting
+            let name = {
+                id: Date.now(),
+                name: document.getElementById('name').value,
+                class: document.getElementById('class').value
+            }
+            names.push(name);
+            document.forms[0].reset(); // to clear the form for the next entries
+            //document.querySelector('form').reset();
+
+            //for display purposes only
+            console.warn('added' , {names} );
+            let pre = document.querySelector('#msg pre');
+            pre.textContent = '\n' + JSON.stringify(names, '\t', 2);
+
+            //saving to localStorage
+            localStorage.setItem('MyList', JSON.stringify(names) );
+        }
+        document.addEventListener('DOMContentLoaded', ()=>{
+            document.getElementById('btn').addEventListener('click', addNames);
+        });
+    </script>
+</body>
+</html>
